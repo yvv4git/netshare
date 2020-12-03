@@ -17,6 +17,8 @@ import (
 
 var cfgFile string
 var cfg config.Config
+var serverHost string
+var serverPort int
 
 var rootCmd = &cobra.Command{
 	Use:   "webshare",
@@ -25,7 +27,8 @@ var rootCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Println("Run root cmd")
 		log.Println("Server host:", cfg.Host)
-		log.Println("Server port:", cfg.Port)
+		log.Println("Server serverPort:", cfg.Port)
+		log.Println(4)
 	},
 }
 
@@ -43,6 +46,8 @@ func init() {
 
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.webshare.yaml)")
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	rootCmd.Flags().StringVarP(&serverHost, "host", "s", "", "Set up server host")
+	rootCmd.Flags().IntVarP(&serverPort, "serverPort", "p", 0, "Set up serverPort")
 }
 
 // initConfig reads in config file and ENV variables if set.
@@ -72,5 +77,13 @@ func initConfig() {
 		if err := viper.Unmarshal(&cfg); err != nil {
 			panic(err)
 		}
+	}
+
+	if serverHost != "" {
+		cfg.Host = serverHost
+	}
+
+	if serverPort != 0 {
+		cfg.Port = serverPort
 	}
 }
