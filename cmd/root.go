@@ -5,11 +5,11 @@ package cmd
 
 import (
 	"log"
+	"netshare/internal/config"
+	"netshare/internal/server"
 	"os"
 	"os/signal"
 	"syscall"
-	"webshare/internal/config"
-	"webshare/internal/server"
 
 	"github.com/spf13/cobra"
 
@@ -86,7 +86,7 @@ func initConfig() {
 
 		// Search config in home directory with name ".webshare" (without extension).
 		viper.AddConfigPath(home)
-		viper.SetConfigName(".webshare")
+		viper.SetConfigName(".netshare")
 	}
 
 	viper.AutomaticEnv() // read in environment variables that match

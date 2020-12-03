@@ -15,7 +15,7 @@ limitations under the License.
 */
 package main
 
-import "webshare/cmd"
+import "netshare/cmd"
 
 func main() {
 	cmd.Execute()
