@@ -6,7 +6,10 @@ package cmd
 import (
 	"log"
 	"os"
+	"os/signal"
+	"syscall"
 	"webshare/internal/config"
+	"webshare/internal/server"
 
 	"github.com/spf13/cobra"
 
@@ -18,16 +21,34 @@ var cfgFile string
 var cfg config.Config
 var serverHost string
 var serverPort int
+var serverShareDir string
+var serverType string
 
 var rootCmd = &cobra.Command{
-	Use:   "webshare",
-	Short: "Sharing files over http",
-	Long:  ``,
+	Use:   "netshare -p 8182 -s localhost -d data -t web",
+	Short: "Sharing files over http and may be other protocols.",
+	Long: `Currently, only the web Protocol is supported.
+However, the program architecture is designed for different file transfer protocols.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		log.Println("Run root cmd")
 		log.Println("Server host:", cfg.Host)
-		log.Println("Server Port:", cfg.Port)
-		log.Println(4)
+		log.Println("Server port:", cfg.Port)
+		log.Println("Server share dir:", cfg.ShareDir)
+		log.Println("Server type:", cfg.Type)
+
+		srv, err := server.Factory(cfg.Type, cfg.Host, cfg.Port, cfg.ShareDir)
+		if err != nil {
+			panic(err)
+		}
+
+		go func() {
+			quitChannel := make(chan os.Signal, 1)
+			signal.Notify(quitChannel, os.Interrupt, syscall.SIGTERM)
+			<-quitChannel
+			log.Println("Close server by signal")
+			srv.Stop()
+		}()
+
+		srv.Start()
 	},
 }
 
@@ -44,9 +65,10 @@ func init() {
 	cobra.OnInitialize(initConfig)
 
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.webshare.yaml)")
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	rootCmd.Flags().StringVarP(&serverHost, "host", "s", "", "Setup server host")
-	rootCmd.Flags().IntVarP(&serverPort, "serverPort", "p", 0, "Setup serverPort")
+	rootCmd.Flags().IntVarP(&serverPort, "serverPort", "p", 0, "Setup server port")
+	rootCmd.Flags().StringVarP(&serverShareDir, "dir", "d", "", "Setup server share dir")
+	rootCmd.Flags().StringVarP(&serverType, "type", "t", "", "Setup server type")
 }
 
 // initConfig reads in config file and ENV variables if set.
@@ -78,13 +100,28 @@ func initConfig() {
 		}
 	}
 
+	log.Println("Config host: ", cfg.Host)
+	log.Println("Config port", cfg.Port)
+	log.Println("Config share dir: ", cfg.ShareDir)
+	log.Println("Config server type: ", cfg.Type)
+
 	if serverHost != "" {
 		cfg.Host = serverHost
-		log.Println("Setup host from arguments")
+		log.Println("Setup host from arguments: ", cfg.Host)
 	}
 
 	if serverPort != 0 {
 		cfg.Port = serverPort
-		log.Println("Setup port from arguments")
+		log.Println("Setup port from arguments: ", cfg.Port)
+	}
+
+	if serverShareDir != "" {
+		cfg.ShareDir = serverShareDir
+		log.Println("Setup share dir from arguments", cfg.ShareDir)
+	}
+
+	if serverType != "" {
+		cfg.Type = serverType
+		log.Println("Setup share dir from arguments", cfg.Type)
 	}
 }
