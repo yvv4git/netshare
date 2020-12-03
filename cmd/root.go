@@ -4,7 +4,6 @@ Package cmd contains a set of commands for the console
 package cmd
 
 import (
-	"fmt"
 	"log"
 	"os"
 	"webshare/internal/config"
@@ -17,6 +16,8 @@ import (
 
 var cfgFile string
 var cfg config.Config
+var serverHost string
+var serverPort int
 
 var rootCmd = &cobra.Command{
 	Use:   "webshare",
@@ -25,7 +26,8 @@ var rootCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Println("Run root cmd")
 		log.Println("Server host:", cfg.Host)
-		log.Println("Server port:", cfg.Port)
+		log.Println("Server serverPort:", cfg.Port)
+		log.Println(4)
 	},
 }
 
@@ -33,7 +35,7 @@ var rootCmd = &cobra.Command{
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		os.Exit(1)
 	}
 }
@@ -43,6 +45,8 @@ func init() {
 
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.webshare.yaml)")
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	rootCmd.Flags().StringVarP(&serverHost, "host", "s", "", "Set up server host")
+	rootCmd.Flags().IntVarP(&serverPort, "serverPort", "p", 0, "Set up serverPort")
 }
 
 // initConfig reads in config file and ENV variables if set.
@@ -54,7 +58,7 @@ func initConfig() {
 		// Find home directory.
 		home, err := homedir.Dir()
 		if err != nil {
-			fmt.Println(err)
+			log.Println(err)
 			os.Exit(1)
 		}
 
@@ -67,10 +71,18 @@ func initConfig() {
 
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {
-		fmt.Println("Using config file:", viper.ConfigFileUsed())
+		log.Println("Using config file:", viper.ConfigFileUsed())
 
 		if err := viper.Unmarshal(&cfg); err != nil {
 			panic(err)
 		}
+	}
+
+	if serverHost != "" {
+		cfg.Host = serverHost
+	}
+
+	if serverPort != 0 {
+		cfg.Port = serverPort
 	}
 }

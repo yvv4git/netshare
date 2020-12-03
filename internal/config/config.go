@@ -8,5 +8,5 @@ type Config struct {
 // WebServe - with http server options.
 type WebServe struct {
 	Host string
-	Port string
+	Port int
 }
