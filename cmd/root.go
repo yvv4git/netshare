@@ -26,7 +26,7 @@ var rootCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Println("Run root cmd")
 		log.Println("Server host:", cfg.Host)
-		log.Println("Server serverPort:", cfg.Port)
+		log.Println("Server Port:", cfg.Port)
 		log.Println(4)
 	},
 }
