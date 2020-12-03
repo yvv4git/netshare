@@ -1,5 +1,5 @@
 # webshare
-Share files by http
+Share files by http and may be other protocols.
 
 
 ## HOW TO
