@@ -45,8 +45,8 @@ func init() {
 
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.webshare.yaml)")
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-	rootCmd.Flags().StringVarP(&serverHost, "host", "s", "", "Set up server host")
-	rootCmd.Flags().IntVarP(&serverPort, "serverPort", "p", 0, "Set up serverPort")
+	rootCmd.Flags().StringVarP(&serverHost, "host", "s", "", "Setup server host")
+	rootCmd.Flags().IntVarP(&serverPort, "serverPort", "p", 0, "Setup serverPort")
 }
 
 // initConfig reads in config file and ENV variables if set.
@@ -80,9 +80,11 @@ func initConfig() {
 
 	if serverHost != "" {
 		cfg.Host = serverHost
+		log.Println("Setup host from arguments")
 	}
 
 	if serverPort != 0 {
 		cfg.Port = serverPort
+		log.Println("Setup port from arguments")
 	}
 }
