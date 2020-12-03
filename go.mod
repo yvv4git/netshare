@@ -1,4 +1,4 @@
-module webshare
+module netshare
 
 go 1.15
 
