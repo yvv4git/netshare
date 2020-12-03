@@ -2,11 +2,13 @@ package config
 
 // Config - structure describing the configuration.
 type Config struct {
-	WebServe
+	NetServer
 }
 
-// WebServe - with http server options.
-type WebServe struct {
-	Host string
-	Port int
+// NetServer - with http server options.
+type NetServer struct {
+	Host     string
+	Port     int
+	ShareDir string
+	Type     string
 }
