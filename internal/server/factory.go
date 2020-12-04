@@ -1,6 +1,6 @@
 package server
 
-import "fmt"
+import "errors"
 
 // Factory - factory for different types of servers
 func Factory(serverType string, host string, port int, share string) (NetServerer, error) {
@@ -8,5 +8,5 @@ func Factory(serverType string, host string, port int, share string) (NetServere
 		return newWebServer(host, port, share), nil
 	}
 
-	return nil, fmt.Errorf("Wrong server type")
+	return nil, errors.New("Wrong server type")
 }
