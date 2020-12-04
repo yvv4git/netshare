@@ -1,4 +1,4 @@
-# webshare
+# NetShare
 Share files by http and may be other protocols.
 
 
