@@ -10,3 +10,5 @@ go run main.go -p 8181
 go run main.go -s 127.0.0.1
 go run main.go -p 8181 -s 127.0.0.1
 ```
+
+![screenshot of sample](https://github.com/yvv4git/netshare/blob/master/about.png)
