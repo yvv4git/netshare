@@ -33,7 +33,7 @@ func newWebServer(host string, port int, dirPath string) *WebSrv {
 	}
 }
 
-// Run - method for start web server.
+// Start - method for start web server.
 func (s *WebSrv) Start() {
 	log.Println("Run server")
 
