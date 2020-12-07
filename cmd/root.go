@@ -68,7 +68,7 @@ func init() {
 	rootCmd.Flags().StringVarP(&serverHost, "host", "s", "", "Setup server host")
 	rootCmd.Flags().IntVarP(&serverPort, "serverPort", "p", 0, "Setup server port")
 	rootCmd.Flags().StringVarP(&serverShareDir, "dir", "d", "", "Setup server share dir")
-	rootCmd.Flags().StringVarP(&serverType, "type", "t", "", "Setup server type")
+	rootCmd.Flags().StringVarP(&serverType, "type", "t", "web", "Setup server type")
 }
 
 // initConfig reads in config file and ENV variables if set.

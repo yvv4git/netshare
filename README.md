@@ -9,6 +9,7 @@ go run main.go
 go run main.go -p 8181
 go run main.go -s 127.0.0.1
 go run main.go -p 8181 -s 127.0.0.1
+go run main.go -p 8182 -s localhost -d data -t web
 ```
 
 ![screenshot of sample](https://github.com/yvv4git/netshare/blob/main/about.png)
