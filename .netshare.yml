@@ -1,0 +1,6 @@
+netserver:
+    host: localhost
+    port: 8080
+    sharedir: data
+    type: web
+    
