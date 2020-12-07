@@ -4,7 +4,7 @@ Share files by http and may be other protocols.
 
 ## HOW TO
 
-* With config
+* With config.  
 You can run it using the config.
 Config example placed in project dir. To do this, copy the config to your user's directory.
 ```
@@ -12,7 +12,7 @@ cp .netshare.yml ~/
 go run main.go
 ```
 
-* With only command line.
+* With only command line.  
 Running the program if the config is located in the user's directory.  
 ```
 go run main.go
