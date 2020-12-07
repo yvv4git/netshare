@@ -8,7 +8,8 @@ Share files by http and may be other protocols.
 You can run it using the config.
 Config example placed in project dir. To do this, copy the config to your user's directory.
 ```
-cp .netshare.yml ~/
+cp .netshare.yml ~/  
+go run main.go
 ```
 
 * With only command line.
