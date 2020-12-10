@@ -12,3 +12,6 @@ build:
 tests:
 	go test -v
 	go test -v ./internal/...
+
+run:
+	go run main.go

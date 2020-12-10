@@ -3,7 +3,7 @@ package server
 import "errors"
 
 // Factory - factory for different types of servers
-func Factory(serverType string, host string, port int, share string) (NetServerer, error) {
+func Factory(serverType string, host string, port int, share string) (IServer, error) {
 	if serverType == "web" {
 		return newWebServer(host, port, share), nil
 	}
