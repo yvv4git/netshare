@@ -24,32 +24,37 @@ var serverPort int
 var serverShareDir string
 var serverType string
 
-var rootCmd = &cobra.Command{
-	Use:   "netshare -p 8182 -s localhost -d data -t web",
-	Short: "Sharing files over http and may be other protocols.",
-	Long: `Currently, only the web Protocol is supported.
-However, the program architecture is designed for different file transfer protocols.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		log.Println("Server host:", cfg.Host)
-		log.Println("Server port:", cfg.Port)
-		log.Println("Server share dir:", cfg.ShareDir)
-		log.Println("Server type:", cfg.Type)
+var rootCmd = NewRootCmd()
 
-		srv, err := server.Factory(cfg.Type, cfg.Host, cfg.Port, cfg.ShareDir)
-		if err != nil {
-			panic(err)
-		}
+// NewRootCmd is a constructor for rootcmd.
+func NewRootCmd() *cobra.Command {
+	return &cobra.Command{
+		Use:   "netshare -p 8182 -s localhost -d data -t web",
+		Short: "Sharing files over http and may be other protocols.",
+		Long: `Currently, only the web Protocol is supported.
+	However, the program architecture is designed for different file transfer protocols.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			log.Println("Server host:", cfg.Host)
+			log.Println("Server port:", cfg.Port)
+			log.Println("Server share dir:", cfg.ShareDir)
+			log.Println("Server type:", cfg.Type)
 
-		go func() {
-			quitChannel := make(chan os.Signal, 1)
-			signal.Notify(quitChannel, os.Interrupt, syscall.SIGTERM)
-			<-quitChannel
-			log.Println("Close server by signal")
-			srv.Stop()
-		}()
+			srv, err := server.Factory(cfg.Type, cfg.Host, cfg.Port, cfg.ShareDir)
+			if err != nil {
+				panic(err)
+			}
 
-		srv.Start()
-	},
+			go func() {
+				quitChannel := make(chan os.Signal, 1)
+				signal.Notify(quitChannel, os.Interrupt, syscall.SIGTERM)
+				<-quitChannel
+				log.Println("Close server by signal")
+				srv.Stop()
+			}()
+
+			srv.Start()
+		},
+	}
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
