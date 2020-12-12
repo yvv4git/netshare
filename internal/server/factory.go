@@ -1,11 +1,14 @@
 package server
 
-import "errors"
+import (
+	"errors"
+	"netshare/internal/config"
+)
 
 // Factory - factory for different types of servers
-func Factory(serverType string, host string, port int, share string) (IServer, error) {
-	if serverType == "web" {
-		return newWebServer(host, port, share), nil
+func Factory(config config.Config) (IServer, error) {
+	if config.Type == "web" {
+		return newWebServer(config.Host, config.Port, config.ShareDir), nil
 	}
 
 	return nil, errors.New("Wrong server type")

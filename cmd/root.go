@@ -39,7 +39,7 @@ func NewRootCmd() *cobra.Command {
 			log.Println("Server share dir:", cfg.ShareDir)
 			log.Println("Server type:", cfg.Type)
 
-			srv, err := server.Factory(cfg.Type, cfg.Host, cfg.Port, cfg.ShareDir)
+			srv, err := server.Factory(cfg)
 			if err != nil {
 				panic(err)
 			}
