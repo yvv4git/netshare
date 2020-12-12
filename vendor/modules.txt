@@ -46,6 +46,9 @@ github.com/spf13/viper
 github.com/stretchr/testify/assert
 # github.com/subosito/gotenv v1.2.0
 github.com/subosito/gotenv
+# github.com/yvv4git/webhelpers v0.0.0-20201212134022-b80790505fa5
+## explicit
+github.com/yvv4git/webhelpers
 # golang.org/x/sys v0.0.0-20190624142023-c5567b49c5d0
 golang.org/x/sys/unix
 # golang.org/x/text v0.3.2

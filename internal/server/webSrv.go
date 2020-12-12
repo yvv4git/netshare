@@ -2,10 +2,11 @@ package server
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"net/http"
 	"time"
+
+	"github.com/yvv4git/webhelpers"
 )
 
 const (
@@ -24,7 +25,7 @@ type webSrv struct {
 func newWebServer(host string, port int, dirPath string) *webSrv {
 	return &webSrv{
 		server: &http.Server{
-			Addr:         getListenServerString(host, port),
+			Addr:         webhelpers.GetListenServerString(host, port),
 			Handler:      getRouterWithShareDir(dirPath),
 			ReadTimeout:  timeoutRead * time.Second,
 			WriteTimeout: timeoutWrite * time.Second,
@@ -52,11 +53,6 @@ func (s *webSrv) Stop() {
 	if err := s.server.Shutdown(ctx); err != nil {
 		log.Fatalf("Could not gracefully shutdown the server: %v\n", err)
 	}
-}
-
-// getListenServerString function for generate server host:port string.
-func getListenServerString(host string, port int) string {
-	return fmt.Sprintf("%s:%d", host, port)
 }
 
 // getRouterWithShareDir function for create router
