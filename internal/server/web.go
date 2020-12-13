@@ -16,14 +16,14 @@ const (
 	timeoutGracefullShutdown = 10
 )
 
-// srvweb - entity of web server.
-type srvweb struct {
+// web - entity of web server.
+type web struct {
 	server *http.Server
 }
 
 // newWebServer - method for initilize server options.
-func newWebServer(host string, port int, dirPath string) *srvweb {
-	return &srvweb{
+func newWebServer(host string, port int, dirPath string) *web {
+	return &web{
 		server: &http.Server{
 			Addr:         webhelpers.GetListenServerString(host, port),
 			Handler:      getRouterWithShareDir(dirPath),
@@ -35,7 +35,7 @@ func newWebServer(host string, port int, dirPath string) *srvweb {
 }
 
 // Start - method for start web server.
-func (s *srvweb) Start() {
+func (s *web) Start() {
 	log.Println("Run server")
 
 	if err := s.server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
@@ -44,7 +44,7 @@ func (s *srvweb) Start() {
 }
 
 // Stop - method for stoping web server.
-func (s *srvweb) Stop() {
+func (s *web) Stop() {
 	log.Println("Stop web server")
 
 	ctx, cancel := context.WithTimeout(context.Background(), timeoutGracefullShutdown*time.Second)
