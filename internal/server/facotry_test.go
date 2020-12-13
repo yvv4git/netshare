@@ -24,7 +24,7 @@ func TestFactory(t *testing.T) {
 
 	assert.Nil(t, err)
 
-	if _, ok := webServer.(*webSrv); ok {
+	if _, ok := webServer.(*srvweb); ok {
 		fmt.Println("This is web server")
 	}
 }
