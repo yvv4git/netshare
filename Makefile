@@ -9,9 +9,11 @@ build:
 	GOOS=linux GOARCH=arm go build -o ${BUILD_DIR}/netshareArm.bin main.go
 	GOOS=freebsd GOARCH=amd64 go build -o ${BUILD_DIR}/netshareFreebsd64.bin main.go
 
-tests:
-	go test -v
-	go test -v ./internal/...
+tests_integration:
+	go test -v -tags=integration ./...
+
+tests_unit:
+	go test -v -tags=unit ./...
 
 run:
 	go run main.go
